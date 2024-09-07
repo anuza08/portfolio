@@ -50,7 +50,7 @@ const Contact = () => {
           setTimeout(() => {
             setCurrentAnimation("idle");
             setForm({ name: "", email: "", message: "" });
-          }, 3000); // Remove brackets around 3000
+          }, 3000);
         })
         .catch((error) => {
           setIsLoading(false);
