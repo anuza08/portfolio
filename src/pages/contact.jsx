@@ -1,29 +1,32 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import Fox from "../models/fox";
+import Loader from "../components/loader";
+import UseAlert from "../hooks/useAlert";
+import Alert from "../components/alert";
 import emailjs from "@emailjs/browser";
-// import { log } from "three/examples/jsm/nodes/Nodes.js";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef(null);
+  const [currentAnimation, setCurrentAnimation] = useState("idle");
+
+  const { alert, showAlert, hideAlert } = UseAlert(); // Call UseAlert as a function
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleFocus = () => {};
-  const handleBlur = () => {};
+  const handleFocus = () => setCurrentAnimation("walk");
+  const handleBlur = () => setCurrentAnimation("idle");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    console.log(import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY);
-    console.log(import.meta.env.VITE_APP_EMAILJS_SERVICE_ID);
-    console.log(import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID);
+    setCurrentAnimation("hit");
 
     setTimeout(() => {
-      debugger;
       emailjs
         .send(
           import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
@@ -37,14 +40,26 @@ const Contact = () => {
           },
           import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
         )
-
         .then(() => {
           setIsLoading(false);
-
-          setForm({ name: "", email: "", message: "" });
+          showAlert({
+            show: true,
+            text: "Message sent successfully :)",
+            type: "success",
+          });
+          setTimeout(() => {
+            setCurrentAnimation("idle");
+            setForm({ name: "", email: "", message: "" });
+          }, 3000); // Remove brackets around 3000
         })
         .catch((error) => {
           setIsLoading(false);
+          showAlert({
+            show: true,
+            text: "I didn't receive your message :(",
+            type: "danger",
+          });
+          setCurrentAnimation("idle");
           console.log(error);
         });
     }, 200);
@@ -52,6 +67,8 @@ const Contact = () => {
 
   return (
     <section className="relative flex lg:flex-row flex-col max-container">
+      {alert.show && <Alert {...alert} />}
+
       <div className="flex-1 min-w-[50%] flex flex-col">
         <h1 className="head-text">Get in Touch</h1>
 
@@ -106,6 +123,20 @@ const Contact = () => {
             {isLoading ? "Sending..." : "Send Message"}
           </button>
         </form>
+      </div>
+      <div className="lg:w-1/ w-full lg:h-auto md:h-[550px] h-[350px]">
+        <Canvas camera={{ position: [0, 0, 5], fov: 75, near: 0.1, far: 1000 }}>
+          <directionalLight intensity={2.5} position={[0, 0, 1]} />
+          <ambientLight intensity={0.5} />
+          <Suspense fallback={<Loader />}>
+            <Fox
+              currentAnimation={currentAnimation}
+              position={[0.5, 0.35, 0]}
+              rotation={[12.6, -0.6, 0]}
+              scale={[0.5, 0.5, 0.5]}
+            />
+          </Suspense>
+        </Canvas>
       </div>
     </section>
   );
