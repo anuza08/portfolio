@@ -1,4 +1,3 @@
-// src/models/sky.jsx
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -7,7 +6,6 @@ import { a } from "@react-spring/three";
 const Sky = (props) => {
   const skyRef = useRef();
 
-  // Rotate the sky on every frame
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     if (skyRef.current) {
