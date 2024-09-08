@@ -4,7 +4,7 @@ import Loader from "../components/loader";
 import Island from "../models/island";
 import Sky from "../models/sky";
 import Plane from "../models/plane";
-import HomeInfo from "../components/HOMEiNFO.JSX";
+import HomeInfo from "../components/homeInfo";
 import sakura from "../assets/sakura.mp3";
 import { soundoff, soundon } from "../assets/icons";
 
@@ -12,9 +12,12 @@ const Home = () => {
   const audioRef = useRef(new Audio(sakura));
   audioRef.current.volume = 0.4;
   audioRef.current.loop = true;
+
   const [isRotate, setIsRotate] = useState(false);
   const [currentStage, setCurrentStage] = useState(1);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+  const [showPopup, setShowPopup] = useState(true); // State for showing the popup
+
   useEffect(() => {
     if (isPlayingMusic) {
       audioRef.current.play();
@@ -23,6 +26,14 @@ const Home = () => {
       audioRef.current.pause();
     };
   }, [isPlayingMusic]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const adjustIslandForScreenSize = () => {
     let screenScale = [1, 1, 1];
@@ -57,9 +68,16 @@ const Home = () => {
 
   return (
     <section className="w-full h-screen relative">
+      {showPopup && (
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black text-white py-2 px-4 rounded-md shadow-lg z-20">
+          Use mouse scroll to interact
+        </div>
+      )}
+
       <div className="absolute top-28 left-0 right-0 z-10 flex items-center justify-center">
         {currentStage && <HomeInfo currentStage={currentStage} />}
       </div>
+
       <Canvas
         className={`w-full h-screen bg-transparent ${
           isRotate ? "cursor-grabbing" : "cursor-grab"
@@ -87,6 +105,7 @@ const Home = () => {
           />
         </Suspense>
       </Canvas>
+
       <div className="absolute bottom-2 left-2">
         <img
           src={!isPlayingMusic ? soundoff : soundon}
