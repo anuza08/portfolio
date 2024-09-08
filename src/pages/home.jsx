@@ -65,9 +65,9 @@ const Home = () => {
           />
           <Sky />
           <Plane
-            planeScale={planeScale}
+            scale={planeScale}
             isRotate={isRotate}
-            planePosition={planePosition}
+            position={planePosition}
             rotation={[0, 20, 0]}
           />
         </Suspense>
