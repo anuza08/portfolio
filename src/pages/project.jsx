@@ -58,7 +58,6 @@ const Project = () => {
                 >
                   Live Link
                 </Link>
-                {/* 7777 */}
               </div>
             </div>
           </div>
