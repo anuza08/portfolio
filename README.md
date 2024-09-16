@@ -1,8 +1,7 @@
-# React + Vite
+# 🚀 Just built a 3D portfolio using Three.js! 🎨✨ 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Screenshot 2024-09-09 012937](https://github.com/user-attachments/assets/2510b9e7-e8fa-45c8-bbe8-d8050cbc7497)
 
-Currently, two official plugins are available:
+![Screenshot 2024-09-09 012947](https://github.com/user-attachments/assets/6961329c-f20b-4e18-b873-847a73d78153)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Screenshot 2024-09-09 012955](https://github.com/user-attachments/assets/aa6d1115-9c42-4ab6-8dbd-4bd7a174e48f)
